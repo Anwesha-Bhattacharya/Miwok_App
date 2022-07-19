@@ -1,7 +1,7 @@
 Miwok App
 ===================================
 
-This mutli-screen app displays lists of common vocabulary words for the user 
+This multi-screen app displays lists of common vocabulary words for the user 
 to learn the Miwok language.
 
 
