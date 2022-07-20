@@ -44,14 +44,9 @@ public class NumbersActivity extends AppCompatActivity {
         words.add(new Word("nine", "wo’e", R.drawable.number_nine, R.raw.number_nine));
         words.add(new Word("ten", "na’aacha", R.drawable.number_ten, R.raw.number_ten));
 
-        // Create an {@link WordAdapter}, whose data source is a list of {@link Word}s.
+
         WordAdapter adapter = new WordAdapter(this, words, R.color.category_numbers);
-
-        // Find the {@link ListView} object in the view hierarchy of the {@link Activity}.
         ListView listView = findViewById(R.id.list);
-
-        // Make the {@link ListView} use the {@link WordAdapter} we created above, so that the
-        // {@link ListView} will display list items for each {@link Word} in the list.
         listView.setAdapter(adapter);
 
 
@@ -78,21 +73,21 @@ public class NumbersActivity extends AppCompatActivity {
                 mMediaPlayer.setOnCompletionListener(mCompletionListener);
             }
         });
-
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // When the activity is stopped, release the media player resources to discontinue playing sounds
+        releaseMediaPlayer();
+    }
+
     /**
      * Clean up the media player by releasing its resources.
      */
     private void releaseMediaPlayer() {
-        // If the media player is not null, then it may be currently playing a sound.
         if (mMediaPlayer != null) {
-            // Regardless of the current state of the media player, release its resources
-            // because we no longer need it.
             mMediaPlayer.release();
-
-            // Set the media player back to null. For our code, we've decided that
-            // setting the media player to null is an easy way to tell that the media player
-            // is not configured to play an audio file at the moment.
             mMediaPlayer = null;
         }
     }
