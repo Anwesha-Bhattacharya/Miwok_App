@@ -4,7 +4,7 @@ android {
     compileSdkVersion 33
 
     defaultConfig {
-        applicationId "com.example.android.miwok"
+        applicationId "com.anwesha.android.miwok"
         minSdkVersion 21
         targetSdkVersion 33
         versionCode 1

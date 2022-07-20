@@ -1,4 +1,4 @@
-package com.example.android.miwok;
+package com.anwesha.android.miwok;
 
 /**
  * {@link Word} represents a vocabulary word that the user wants to learn.

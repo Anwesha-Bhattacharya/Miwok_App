@@ -1,4 +1,4 @@
-package com.example.android.miwok;
+package com.anwesha.android.miwok;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+
+import com.anwesha.android.miwok.R;
 
 import java.util.ArrayList;
 

@@ -1,9 +1,11 @@
-package com.example.android.miwok;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.anwesha.android.miwok;
 
 import android.os.Bundle;
 import android.widget.ListView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.anwesha.android.miwok.R;
 
 import java.util.ArrayList;
 
