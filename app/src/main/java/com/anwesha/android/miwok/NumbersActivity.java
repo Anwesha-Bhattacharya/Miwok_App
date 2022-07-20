@@ -1,5 +1,7 @@
 package com.anwesha.android.miwok;
 
+import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
@@ -11,8 +13,34 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 
 public class NumbersActivity extends AppCompatActivity {
-    /** Handles playback of all the sound files */
+    /**
+     * Handles playback of all the sound files
+     */
     private MediaPlayer mMediaPlayer;
+
+    /**
+     * Handles audio focus when playing a sound file
+     */
+    private AudioManager mAudioManager;
+
+    /**
+     * This listener gets triggered whenever the audio focus changes
+     * (i.e., we gain or lose audio focus because of another app or device).
+     */
+    private AudioManager.OnAudioFocusChangeListener mOnAudioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
+        @Override
+        public void onAudioFocusChange(int focusChange) {
+            if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT ||
+                    focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK) {
+                mMediaPlayer.pause();
+                mMediaPlayer.seekTo(0);
+            } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
+                mMediaPlayer.start();
+            } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
+                releaseMediaPlayer();
+            }
+        }
+    };
 
     /**
      * This listener gets triggered when the {@link MediaPlayer} has completed
@@ -29,6 +57,8 @@ public class NumbersActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.word_list);
+
+        mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
         //List of English words for the numbers 1-10
         final ArrayList<Word> words = new ArrayList<Word>();
@@ -54,23 +84,22 @@ public class NumbersActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                // Get the {@link Word} object at the given position the user clicked on
-                Word word = words.get(position);
 
-                // Release the media player if it currently exists because  we are about to
-                // play a different audio file
+                Word word = words.get(position);
                 releaseMediaPlayer();
 
-                // Create and setup the {@link MediaPlayer} for the audio resource associated
-                // with the current word
-                mMediaPlayer = MediaPlayer.create(NumbersActivity.this, word.getAudioResourceID());
+                int result = mAudioManager.requestAudioFocus(mOnAudioFocusChangeListener,
+                        AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
 
-                // Start the audio file
-                mMediaPlayer.start();
+                if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                    // We have audio focus now.
 
-                // Setup the listener on the media player, so that we can stop and release the
-                // media player once the sound has finished playing
-                mMediaPlayer.setOnCompletionListener(mCompletionListener);
+                    // Create and setup the {@link MediaPlayer} for the audio resource associated
+                    // with the current word
+                    mMediaPlayer = MediaPlayer.create(NumbersActivity.this, word.getAudioResourceID());
+                    mMediaPlayer.start();
+                    mMediaPlayer.setOnCompletionListener(mCompletionListener);
+                }
             }
         });
     }
@@ -89,7 +118,7 @@ public class NumbersActivity extends AppCompatActivity {
         if (mMediaPlayer != null) {
             mMediaPlayer.release();
             mMediaPlayer = null;
+            mAudioManager.abandonAudioFocus(mOnAudioFocusChangeListener);
         }
     }
-
 }
