@@ -5,6 +5,16 @@ This multi-screen app displays lists of common vocabulary words for the user
 to learn the Miwok language.
 
 
+Pre-requisites
+---------------
+    Android Studio 3.2.1 or higher
+    compileSdkVersion 33
+    minSdkVersion 21
+    targetSdkVersion 33
+    Gradle 7.2.1
+
+
+
 License
 -------
 
