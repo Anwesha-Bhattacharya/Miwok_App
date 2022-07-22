@@ -1,17 +1,18 @@
 Miwok App
 ===================================
 
-This multi-screen app displays lists of common vocabulary words for the user 
-to learn the Miwok language.
+This is a multiscreen android app that helps users to learn the native American language Miwok.   
+The user can swipe through categorized lists of common words, phrases and their Miwok translations.  
+Descriptive images and pronunciations have been added to aid the user in the learning process.  
 
 
 Pre-requisites
 ---------------
-    Android Studio 3.2.1 or higher
-    compileSdkVersion 33
-    minSdkVersion 21
-    targetSdkVersion 33
-    Gradle 7.2.1
+    * Android Studio 3.2.1 or higher
+    * compileSdkVersion 33
+    * minSdkVersion 21
+    * targetSdkVersion 33
+    * Gradle 7.2.1
 
 
 
